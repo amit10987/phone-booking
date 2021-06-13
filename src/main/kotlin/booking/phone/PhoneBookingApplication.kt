@@ -43,3 +43,5 @@ data class PhoneView(
 
 data class PhoneBookingRequest(var name: String)
 
+class PhoneIsAlreadyBookedException(var id: Long ?, var bookedBy: String ?) : RuntimeException()
+

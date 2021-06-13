@@ -8,13 +8,17 @@ import org.springframework.web.client.RestTemplate
 @Component
 class FonoApiClient(@Autowired val restTemplate: RestTemplate) {
 
-	@Cacheable(value = ["phoneInfo"], key = "{#token, #brandName, #modelName}")
 	fun getPhoneInfo(token: String, brandName: String, modelName: String): FoneInfo {
 		return try {
-			restTemplate.getForObject("https://fonoapi.freshpixl.com/v1/getdevice", FoneInfo::class.java) ?: FoneInfo()
+			getPhoneInfoCache(token, brandName, modelName)
 		} catch (ex: Exception) {
 			FoneInfo()
 		}
+	}
+
+	@Cacheable(value = ["phoneInfo"], key = "{#token, #brandName, #modelName}")
+	fun getPhoneInfoCache(token: String, brandName: String, modelName: String) : FoneInfo {
+		return restTemplate.getForObject("https://fonoapi.freshpixl.com/v1/getdevice", FoneInfo::class.java) ?: throw Exception()
 	}
 }
 

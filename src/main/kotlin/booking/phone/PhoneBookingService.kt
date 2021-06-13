@@ -38,12 +38,15 @@ class PhoneBookingService(
 	}
 
 	private fun getPhoneView(phone: Phone) : PhoneView {
+		val nameSplit = phone.name.split(" ")
+		val brandName = nameSplit[0]
+		val modelName = nameSplit.drop(1).joinToString(" ")
 		return PhoneView(
 			phone.name,
 			phone.isAvailable(),
 			phone.getBookedBy(),
 			phone.getBookedOn(),
-			fonoApiClient.getPhoneInfo("", "", "")
+			fonoApiClient.getPhoneInfo("aXedj56yuiFgjnmnUi", brandName, modelName)
 		)
 	}
 }
